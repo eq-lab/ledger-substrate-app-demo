@@ -2,7 +2,9 @@
 This file contains logs and photos of demo execution.
 
 1. Open Substrate app on Ledger
+
 ![](imgs/1_substrate_ready.jpg)
+
 2. Run demo script - `yarn build && yarn start`
 
 Initial logs:
