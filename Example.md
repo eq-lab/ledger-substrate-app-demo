@@ -98,6 +98,7 @@ Tx hash: 0x5e26ebc1051e9bba7c184b09181936a8562ebc860014100422a2882dea634e4e.
   Check it on Ledger!
 ```
 Check tx hash and Genesis on Ledger
+
 ![](imgs/4_bifrost_ksm_tx_hash_1.jpg)
 
 ![](imgs/4_bifrost_ksm_tx_hash_2.jpg)
