@@ -1,5 +1,5 @@
 # Ledger substrate common app demo
-This repository contains a demo for common Ledger app
+This repository contains a demo for [common Ledger app](https://github.com/eq-lab/app-substrate-common)
 that can be used to sign tx on any parachain/relaychain 
 where ed25519 signature is accepted.
 
