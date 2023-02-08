@@ -89,7 +89,7 @@ Subscan link: https://equilibrium.subscan.io/extrinsic/0x7ca2d7464003d7f561b2941
 ```
 [Subscan](https://equilibrium.subscan.io/extrinsic/0x7ca2d7464003d7f561b29411c286c831607ad9d98f190329b408a629f91be99e)
 
-## Sign tx on Bifrost
+## Sign tx on Bifrost (Kusama)
 ```bash
 Sign transaction on Bifrost (Kusama)
 
