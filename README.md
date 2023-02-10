@@ -9,8 +9,7 @@ To run this demo you need:
 ```bash
 yarn install
 ```
-2. install ledger tools dependencies:
- __TODO__
+2. install ledger tools [dependencies](https://github.com/eq-lab/app-substrate-common/blob/master/docs/build.md)
 3. load app to your Ledger:
 - Ledger Nano S:
 ```bash
