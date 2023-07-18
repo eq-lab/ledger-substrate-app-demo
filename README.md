@@ -1,5 +1,5 @@
 # Ledger substrate common app demo
-This repository contains a demo for [common Ledger app](https://github.com/eq-lab/app-substrate-common)
+This repository contains a demo for [common Ledger app](https://github.com/eq-lab/app-substrate-common/tree/poc) (`poc` tag only)
 that can be used to sign tx on any parachain/relaychain 
 where ed25519 signature is accepted.
 
