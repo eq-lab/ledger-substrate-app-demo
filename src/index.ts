@@ -15,8 +15,6 @@ const hdPathChange = 0x80000000;
 const hdPathIndex = 0x80000000;
 
 const nodeEquilibrium = "wss://node.pol.equilibrium.io/";
-const nodeBifrostKsm = "wss://bifrost-rpc.dwellir.com";
-const nodeKhala = "wss://khala-api.phala.network/ws";
 
 const log = (...v: any[]) => console.log(...v);
 
@@ -73,8 +71,11 @@ async function signAndSendEquilibriumTx(app: SubstrateApp, pubKey: string){
         throwOnConnect: true,
     });
 
-    // Transfer 1.0 EQ to cg4q1NRDwhj1ocFmfnJubbSxekchEdDXBc95KCQxHdzfVcBtL
-    const tx = api.tx.eqBalances.transfer(25969, "cg4q1NRDwhj1ocFmfnJubbSxekchEdDXBc95KCQxHdzfVcBtL", 1000000000);
+    const recipient = "0x0aeb5d4d291f70d24e5f3c40b4e86396b2b1c78741e6ba197f36d64053742654"; // replace it with your public key! Address convertation tool: https://polkadot.subscan.io/tools/format_transform?type=Public%20Key
+    const amount = 100000000; // replace it with your withdraw amount! 1 DOT = 1000000000
+
+    // Withdraw DOT tokens to Polkadot relaychain
+    const tx = api.tx.eqBalances.xcmTransferNative(6582132, amount, {"Id32": recipient}, "SovereignAccWillPay");
 
     const ss58SignerAddress = encodeAddress(`0x${pubKey}`, api.registry.chainSS58);
     log(`Signer ss58 address: ${ss58SignerAddress}`);
@@ -87,60 +88,7 @@ async function signAndSendEquilibriumTx(app: SubstrateApp, pubKey: string){
     log(`Send signed tx to chain`)
     const submittedTxHash = (await tx.send()).toHex();
 
-    log(`Submitted tx hash: ${submittedTxHash}`)
-    log(`Subscan link: https://equilibrium.subscan.io/extrinsic/${submittedTxHash} (please wait 1 minute to processing)`)
-}
-
-async function signAndSendBifrostKsmTx(app: SubstrateApp, pubKey: string){
-    log(`\nSign transaction on Bifrost (Kusama)\n`);
-
-    const api = await ApiPromise.create({
-        provider: new WsProvider(nodeBifrostKsm),
-        throwOnConnect: true,
-    });
-
-    // Transfer 0.01 BNC to dStzKJ4cWYbuRTByUKDpssj1vHat2bMHnuXRR2mGCKKW6Lh
-    const tx = api.tx.balances.transfer({"id": "dStzKJ4cWYbuRTByUKDpssj1vHat2bMHnuXRR2mGCKKW6Lh"}, 10000000000);
-
-    const ss58SignerAddress = encodeAddress(`0x${pubKey}`, api.registry.chainSS58);
-    log(`Signer ss58 address: ${ss58SignerAddress}`);
-
-    const signedTx = await signTransaction(app, api, tx, pubKey, ss58SignerAddress);
-
-    log(`Signed tx as bytes: ${signedTx.toHex()}`);
-    log(`Signed tx as json: ${JSON.stringify(signedTx.toHuman(), null, 2)}\n`)
-
-    log(`Send signed tx to chain`)
-    const submittedTxHash = (await tx.send()).toHex();
-
-    log(`Submitted tx hash: ${submittedTxHash}`)
-    log(`Subscan link: https://bifrost-kusama.subscan.io/extrinsic/${submittedTxHash} (please wait 1 minute to processing)`)
-}
-
-async function signAndSendKhalaTx(app: SubstrateApp, pubKey: string){
-    log(`\nSign transaction on Khala\n`);
-
-    const api = await ApiPromise.create({
-        provider: new WsProvider(nodeKhala),
-        throwOnConnect: true,
-    });
-
-    // Transfer 0.01 PHA to 42LjC8HjqVY3eqAKiFRntWFvXZieCRhqpNCgBpTzNib2G3Wo
-    const tx = api.tx.balances.transfer({"id": "42LjC8HjqVY3eqAKiFRntWFvXZieCRhqpNCgBpTzNib2G3Wo"}, 10000000000);
-
-    const ss58SignerAddress = encodeAddress(`0x${pubKey}`, api.registry.chainSS58);
-    log(`Signer ss58 address: ${ss58SignerAddress}`);
-
-    const signedTx = await signTransaction(app, api, tx, pubKey, ss58SignerAddress);
-
-    log(`Signed tx as bytes: ${signedTx.toHex()}`);
-    log(`Signed tx as json: ${JSON.stringify(signedTx.toHuman(), null, 2)}\n`)
-
-    log(`Send signed tx to chain`)
-    const submittedTxHash = (await tx.send()).toHex();
-
-    log(`Submitted tx hash: ${submittedTxHash}`)
-    log(`Subscan link: https://khala.subscan.io/extrinsic/${submittedTxHash} (please wait 1 minute to processing)`)
+    log(`Submitted tx hash: ${submittedTxHash}`);
 }
 
 async function main() {
@@ -155,8 +103,6 @@ async function main() {
     log(`Ledger account: ${JSON.stringify(address, null, 2)}`);
 
     await signAndSendEquilibriumTx(app, address.pubKey);
-    await signAndSendBifrostKsmTx(app, address.pubKey);
-    await signAndSendKhalaTx(app, address.pubKey);
 }
 
 main();
